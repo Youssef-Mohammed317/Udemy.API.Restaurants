@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Persistance.Contexts;
+using Restaurants.Infrastructure.Persistance.Repositories;
 using Restaurants.Infrastructure.Persistance.Seeds;
 using Restaurants.Infrastructure.Persistance.Seeds.Abstractions;
 using Restaurants.Infrastructure.Persistance.Seeds.Seeders;
@@ -22,5 +24,7 @@ public static class RegisterInfrastructureServices
         services.AddScoped<IEntitySeeder, RestaurantSeeder>();
         services.AddScoped<IEntitySeeder, DishSeeder>();
         services.AddScoped<IDbInitializer, DbInitializer>();
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }
