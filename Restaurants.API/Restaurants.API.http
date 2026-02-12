@@ -1,0 +1,31 @@
+@Restaurants.API_HostAddress = http://localhost:5001
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+GET {{Restaurants.API_HostAddress}}/api/restaurants
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/restaurants/7
+
+###
+
+@id=4
+GET {{Restaurants.API_HostAddress}}/api/Restaurants/{{id}}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurants
+Content-Type: application/json
+
+{
+    "name": "Sushi Master",
+  "description": "Fresh and authentic Japanese sushi",
+  "hasDelivery": false,
+  "categoryId":9,
+  "contactEmail": "infosushimaster.jp",
+  "contactNumber": "555-123-4567",
+  "street": "456 Oak Avenue",
+  "city": "Los Angeles",
+  "postalCode": "90-01"
+}
+###

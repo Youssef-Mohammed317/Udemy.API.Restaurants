@@ -14,7 +14,7 @@ public class UnitOfWork(RestaurantsDbContext _context) : IUnitOfWork
     public IRestaurantRepository RestaurantRepository => _restaurantRepository ??= new RestaurantRepository(_context);
     public IDishRepository DishRepository => _dishRepository ??= new DishRepository(_context);
     public ICategoryRepository CategoryRepository => _categoryRepository ??= new CategoryRepository(_context);
-    
+
 
     public async Task<int> CommitAsync()
     {
@@ -24,7 +24,7 @@ public class UnitOfWork(RestaurantsDbContext _context) : IUnitOfWork
 }
 public class Repository<TEntity, TKey>(RestaurantsDbContext _context) : IRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
 {
-    public virtual async Task AddAsync(TEntity entity)
+    public virtual async Task CreateAsync(TEntity entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
         await _context.Set<TEntity>().AddAsync(entity);
@@ -58,6 +58,15 @@ public class Repository<TEntity, TKey>(RestaurantsDbContext _context) : IReposit
 
 public class RestaurantRepository(RestaurantsDbContext _context) : Repository<Restaurant, int>(_context), IRestaurantRepository
 {
+    public async Task<bool> IsContactNumberExist(string number)
+    {
+        return await _context.Restaurants.AnyAsync(r => r.ContactNumber == number);
+    }
+    public async Task<bool> IsContactEmailExist(string email)
+    {
+        return await _context.Restaurants.AnyAsync(r => r.ContactEmail == email);
+    }
+
 }
 public class CategoryRepository(RestaurantsDbContext _context) : Repository<Category, int>(_context), ICategoryRepository
 {

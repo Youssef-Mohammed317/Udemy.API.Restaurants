@@ -15,11 +15,13 @@ public interface IRepository<TEntity, TKey>
     Task<IEnumerable<TEntity>> GetAllAsync();
     Task<TEntity?> GetById(TKey id);
     void Update(TEntity entity);
-    Task AddAsync(TEntity entity);
+    Task CreateAsync(TEntity entity);
     void Delete(TEntity entity);
 }
 public interface IRestaurantRepository : IRepository<Restaurant, int>
 {
+    Task<bool> IsContactEmailExist(string email);
+    Task<bool> IsContactNumberExist(string number);
 }
 public interface ICategoryRepository : IRepository<Category, int>
 {
