@@ -16,7 +16,7 @@ public class GetRestaurantByIdQueryHandler(IUnitOfWork _unitOfWork,
     {
         _logger.LogInformation("Get Restaurant of Id => {requestId}", request.Id);
 
-        var restaurant = await _unitOfWork.RestaurantRepository.GetById(request.Id) 
+        var restaurant = await _unitOfWork.RestaurantRepository.GetByIdAsync(request.Id)
             ?? throw new NotFoundException(nameof(Restaurant), request.Id.ToString());
         return _mapper.Map<RestaurantDto>(restaurant);
     }

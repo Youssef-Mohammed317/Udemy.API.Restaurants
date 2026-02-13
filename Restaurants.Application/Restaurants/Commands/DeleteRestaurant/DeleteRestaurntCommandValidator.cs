@@ -8,7 +8,7 @@ public class DeleteRestaurntCommandValidator : AbstractValidator<DeleteRestauran
     public DeleteRestaurntCommandValidator()
     {
 
-        RuleFor(x => x.Id).Cascade(CascadeMode.Stop)
+        RuleFor(x => x.Id)
             .GreaterThan(0).WithMessage("Invalid restaurant id.");
     }
 }

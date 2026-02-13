@@ -11,17 +11,4 @@ public class CategoryDto
     public List<RestaurantDto?>? Restaurants { get; set; } = new();
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
-
-    public static CategoryDto? FromEntity(Category? category)
-    {
-        if (category == null) return null;
-        return new CategoryDto
-        {
-            Id = category.Id,
-            Name = category.Name,
-            CreatedAt = category.CreatedAt,
-            UpdatedAt = category.UpdatedAt,
-            Restaurants = category.Restaurants?.Select(RestaurantDto.FromEntity).ToList()
-        };
-    }
 }

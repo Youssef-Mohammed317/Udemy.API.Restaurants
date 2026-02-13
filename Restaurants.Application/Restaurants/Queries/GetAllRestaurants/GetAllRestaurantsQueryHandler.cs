@@ -16,6 +16,7 @@ public class GetAllRestaurantsQueryHandler(IUnitOfWork _unitOfWork,
 
         var restaurants = await _unitOfWork.RestaurantRepository.GetAllAsync();
 
+
         return _mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Restaurants.Application.Restaurants.Dtos;
-using Restaurants.Domain.Entities;
 
 namespace Restaurants.Application.Dishes.Dtos;
 
@@ -15,21 +14,4 @@ public class DishDto
     public RestaurantDto? Restaurant { get; set; } = default!;
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
-
-    public static DishDto? FromEntity(Dish dish)
-    {
-        if (dish == null) return null;
-        return new DishDto
-        {
-            Id = dish.Id,
-            Name = dish.Name,
-            Description = dish.Description,
-            KiloCalories = dish.KiloCalories,
-            Price = dish.Price,
-            RestaurantId = dish.RestaurantId,
-            CreatedAt = dish.CreatedAt,
-            UpdatedAt = dish.UpdatedAt,
-            Restaurant = RestaurantDto.FromEntity(dish.Restaurant)
-        };
-    }
 }

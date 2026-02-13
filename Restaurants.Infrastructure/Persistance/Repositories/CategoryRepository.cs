@@ -3,6 +3,6 @@ using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Persistance.Contexts;
 namespace Restaurants.Infrastructure.Persistance.Repositories;
 
-public class RestaurantRepository(RestaurantsDbContext _context) : Repository<Restaurant, int>(_context), IRestaurantRepository
+public class CategoryRepository(RestaurantsDbContext _context) : Repository<Category, int>(_context), ICategoryRepository
 {
 }

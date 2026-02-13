@@ -37,6 +37,12 @@ public class ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> _logger) :
             await context.Response.WriteAsync(ex.Message);
             _logger.LogWarning(ex, ex.Message);
         }
+        catch (ForbiddenException ex)
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            await context.Response.WriteAsJsonAsync(ex.Message);
+            _logger.LogWarning(ex, ex.Message);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);

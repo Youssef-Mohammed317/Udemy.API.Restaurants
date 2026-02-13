@@ -2,6 +2,6 @@
 
 namespace Restaurants.Domain.Repositories;
 
-public interface IRestaurantRepository : IRepository<Restaurant, int>
+public interface ICategoryRepository : IRepository<Category, int>
 {
 }

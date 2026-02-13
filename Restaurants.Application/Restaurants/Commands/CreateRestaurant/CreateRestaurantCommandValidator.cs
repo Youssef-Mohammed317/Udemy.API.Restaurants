@@ -12,6 +12,7 @@ public class CreateRestaurantCommandValidator : AbstractValidator<CreateRestaura
         _unitOfWork = unitOfWork;
 
         RuleFor(dto => dto.Name)
+            .NotEmpty()
             .Length(3, 100);
 
         RuleFor(dto => dto.Description)
@@ -36,6 +37,7 @@ public class CreateRestaurantCommandValidator : AbstractValidator<CreateRestaura
 
 
         RuleFor(dto => dto.CategoryId)
+            .GreaterThan(0)
             .MustAsync(CheckCategoryExists)
             .WithMessage("Insert a valid Category");
 
@@ -43,20 +45,18 @@ public class CreateRestaurantCommandValidator : AbstractValidator<CreateRestaura
     }
     private async Task<bool> CheckNumberExist(string number, CancellationToken token)
     {
-        var isExist = await _unitOfWork.RestaurantRepository.IsContactNumberExist(number);
-        return !isExist;
+        return !await _unitOfWork.RestaurantRepository.CheckExistAsync(r => r.ContactNumber == number);
+
     }
 
     private async Task<bool> CheckEmailExist(string email, CancellationToken token)
     {
-        var isExist = await _unitOfWork.RestaurantRepository.IsContactEmailExist(email);
-        return !isExist;
+        return !await _unitOfWork.RestaurantRepository.CheckExistAsync(r => r.ContactEmail.ToLower() == email.ToLower());
     }
     private async Task<bool> CheckCategoryExists(int categoryId, CancellationToken token)
     {
 
-        var category = await _unitOfWork.CategoryRepository.GetById(categoryId);
-        return category != null;
+        return await _unitOfWork.CategoryRepository.CheckExistAsync(c => c.Id == categoryId);
     }
 
 }
