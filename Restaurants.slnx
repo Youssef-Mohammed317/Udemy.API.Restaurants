@@ -1,10 +1,15 @@
 <Solution>
-  <Project Path="Restaurants.API/Restaurants.API.csproj" Id="011f0b0f-65be-4363-925d-18293728e8b0" />
-  <Project Path="Restaurants.APITests/Restaurants.APITests.csproj" Id="cdf5d81c-b31a-4a9f-a6c0-3212488d41b1" />
-  <Project Path="Restaurants.Application.UnitTests/Restaurants.Application.UnitTests.csproj" Id="43584a7a-c2fc-44ff-a45d-59c5cfa658f9" />
-  <Project Path="Restaurants.Application/Restaurants.Application.csproj" Id="e2a47889-691e-45d7-ba29-110319d1c95a" />
-  <Project Path="Restaurants.Domain/Restaurants.Domain.csproj" Id="33f00692-1c50-480d-a3c0-68bc48da9408" />
-  <Project Path="Restaurants.Infrastructure/Restaurants.Infrastructure.csproj" Id="b44e82a2-90fb-4df9-8c06-1de2d73b75ba" />
-  <Project Path="Restaurants.InfrastructureTests/Restaurants.InfrastructureTests.csproj" Id="2d791e78-ac8e-4b20-b55e-7511ed0e8997" />
-  <Project Path="Restaurants.IoC/Restaurants.IoC.csproj" Id="b9df4574-b8fb-4833-8b8b-7b8bc80c0802" />
+  <Folder Name="/src/">
+    <Project Path="src/Restaurants.API/Restaurants.API.csproj" />
+    <Project Path="src/Restaurants.Application/Restaurants.Application.csproj" />
+    <Project Path="src/Restaurants.Domain/Restaurants.Domain.csproj" />
+    <Project Path="src/Restaurants.Infrastructure/Restaurants.Infrastructure.csproj" />
+    <Project Path="src/Restaurants.IoC/Restaurants.IoC.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Restaurants.APITests/Restaurants.APITests.csproj" />
+    <Project Path="tests/Restaurants.Application.UnitTests/Restaurants.Application.UnitTests.csproj" />
+    <Project Path="tests/Restaurants.Domain.UnitTests/Restaurants.Domain.UnitTests.csproj" />
+    <Project Path="tests/Restaurants.InfrastructureTests/Restaurants.InfrastructureTests.csproj" />
+  </Folder>
 </Solution>

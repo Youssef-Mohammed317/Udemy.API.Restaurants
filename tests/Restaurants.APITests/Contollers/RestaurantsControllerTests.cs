@@ -27,6 +27,7 @@ public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Pr
 {
     private readonly WebApplicationFactory<Program> factory;
     private readonly Mock<IUnitOfWork> fakeUnitOfWork = new();
+    private Mock<IValidator<GetAllRestaurantsQuery>> validatorMock = new();
 
     public RestaurantsControllerTests(WebApplicationFactory<Program> factory)
     {
@@ -34,16 +35,6 @@ public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Pr
         {
             builder.ConfigureTestServices(services =>
                 {
-                    var validatorMock = new Mock<IValidator<GetAllRestaurantsQuery>>();
-
-                    validatorMock
-                        .Setup(v => v.ValidateAsync(It.IsAny<ValidationContext<GetAllRestaurantsQuery>>(),
-                                                    It.IsAny<CancellationToken>()))
-                        .ReturnsAsync(new ValidationResult(new[]
-                        {
-                        new ValidationFailure("PageSize", "PageSize must be greater than 0")
-                         }));
-
                     services.RemoveAll<IValidator<GetAllRestaurantsQuery>>();
                     services.AddSingleton<IValidator<GetAllRestaurantsQuery>>(_ => validatorMock.Object);
 
@@ -62,6 +53,24 @@ public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Pr
         var pageSize = 10;
         var pageNumber = 1;
         // arrange
+
+        validatorMock
+             .Setup(v => v.ValidateAsync(It.IsAny<ValidationContext<GetAllRestaurantsQuery>>(),
+                                         It.IsAny<CancellationToken>()))
+             .ReturnsAsync((ValidationContext<GetAllRestaurantsQuery> ctx, CancellationToken _) =>
+             {
+                 var req = ctx.InstanceToValidate;
+                 var failures = new List<ValidationFailure>();
+
+                 if (req.PageSize <= 0)
+                     failures.Add(new ValidationFailure(nameof(req.PageSize), "PageSize must be greater than 0"));
+
+                 if (req.PageNumber <= 0)
+                     failures.Add(new ValidationFailure(nameof(req.PageNumber), "PageNumber must be greater than 0"));
+
+                 return new ValidationResult(failures);
+             });
+
         var client = factory.CreateClient();
         fakeUnitOfWork.Setup(u => u.RestaurantRepository.GetAllAsync(null, null, null, pageSize, pageNumber, false)).ReturnsAsync([]);
 
@@ -74,15 +83,24 @@ public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Pr
     [Fact()]
     public async Task GetAll_ForInValidRequest_Returns400BadRequest()
     {
-        var pageSize = 10;
-        var pageNumber = 1;
+        var pageSize = -1;
+        var pageNumber = -1;
         // arrange
         var client = factory.CreateClient();
+
+        validatorMock
+             .Setup(v => v.ValidateAsync(It.IsAny<ValidationContext<GetAllRestaurantsQuery>>(),
+                                         It.IsAny<CancellationToken>()))
+             .ReturnsAsync(new ValidationResult(new[]{
+                 new ValidationFailure("PageSize", "PageSize must be greater than 0"),
+                 new ValidationFailure("pageNumber", "PageSize must be greater than 0")
+                     }));
+
         fakeUnitOfWork.Setup(u => u.RestaurantRepository.GetAllAsync(null, null, null, pageSize, pageNumber, false))
-            .ReturnsAsync([]);
+                .ReturnsAsync([]);
 
         // act
-        var result = await client.GetAsync("/api/restaurants");
+        var result = await client.GetAsync($"/api/restaurants");
         // assert
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
 
