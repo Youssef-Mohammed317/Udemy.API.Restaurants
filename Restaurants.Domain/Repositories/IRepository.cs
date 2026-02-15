@@ -11,11 +11,10 @@ public interface IRepository<TEntity, TKey>
     void Delete(TEntity entity);
     Task<int> DeleteAllAsync(Expression<Func<TEntity, bool>> filter);
     Task<bool> CheckExistAsync(Expression<Func<TEntity, bool>> filter);
-    Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? filter = null,
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
-        bool disableTracking = true);
+
     Task<TEntity?> GetFirstAsync(Expression<Func<TEntity, bool>> filter,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool disableTracking = false);
-
+    Task<int> CountAsync(Expression<Func<TEntity, bool>> filter);
+    Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? filter = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, int pageSize = 10, int pageNumber = 1, bool disableTracking = true);
 }

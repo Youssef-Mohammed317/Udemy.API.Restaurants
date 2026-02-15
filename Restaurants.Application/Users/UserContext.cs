@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
+
 namespace Restaurants.Application.Users;
 
 public class UserContext(IHttpContextAccessor httpContextAccessor) : IUserContext
@@ -24,6 +25,11 @@ public class UserContext(IHttpContextAccessor httpContextAccessor) : IUserContex
                         .Distinct(StringComparer.OrdinalIgnoreCase)
                         .ToList();
 
-        return new CurrentUser(userId, email, roles);
+
+        var nationality = user.FindFirstValue("Nationality");
+        var dateOfBirthString = user.FindFirstValue("DateOfBirth");
+        var dateOfBirth = string.IsNullOrWhiteSpace(dateOfBirthString) ? (DateOnly?)null : DateOnly.ParseExact(dateOfBirthString, "yyyy-MM-dd");
+
+        return new CurrentUser(userId, email, roles, nationality, dateOfBirth);
     }
 }

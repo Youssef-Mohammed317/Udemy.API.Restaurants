@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Domain.Entities.Base;
 using Restaurants.Domain.Repositories;
-using Restaurants.Infrastructure.Persistance;
 using System.Linq.Expressions;
 namespace Restaurants.Infrastructure.Persistance.Repositories;
 
@@ -28,6 +28,9 @@ public class Repository<TEntity, TKey>(RestaurantsDbContext _context) : IReposit
     public virtual async Task<IEnumerable<TEntity>> GetAllAsync(
         Expression<Func<TEntity, bool>>? filter = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        int pageSize = 10,
+        int pageNumber = 1,
         bool disableTracking = true
         )
     {
@@ -41,6 +44,13 @@ public class Repository<TEntity, TKey>(RestaurantsDbContext _context) : IReposit
 
         if (include != null)
             query = include.Invoke(query);
+
+
+        if (orderBy is not null)
+            query = orderBy(query);
+
+
+        query = query.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
 
         return await query.ToListAsync();
     }
@@ -75,5 +85,10 @@ public class Repository<TEntity, TKey>(RestaurantsDbContext _context) : IReposit
         Expression<Func<TEntity, bool>> filter)
     {
         return await _context.Set<TEntity>().AnyAsync(filter);
+    }
+    public virtual async Task<int> CountAsync(
+        Expression<Func<TEntity, bool>> filter)
+    {
+        return await _context.Set<TEntity>().CountAsync(filter);
     }
 }

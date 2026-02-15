@@ -33,5 +33,11 @@ internal class RestaurantConfiguration : IEntityTypeConfiguration<Restaurant>
             .WithMany(p => p.Restaurants)
             .HasForeignKey(p => p.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(p => p.Owner)
+            .WithMany(p => p.OwnedRestaurants)
+            .HasForeignKey(p => p.OwnerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 }

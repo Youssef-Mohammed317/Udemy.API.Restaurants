@@ -35,4 +35,10 @@ public class IdentityController(IMediator _mediator) : ControllerBase
         await _mediator.Send(command);
         return NoContent();
     }
+    [Authorize]
+    [HttpGet("debug/claims")]
+    public IActionResult DebugClaims()
+    {
+        return Ok(User.Claims.Select(c => new { c.Type, c.Value }));
+    }
 }

@@ -18,6 +18,9 @@ public class Restaurant : BaseEntity<int>
     public int CategoryId { get; set; }
     public Category Category { get; set; } = default!;
     public List<Dish> Dishes { get; set; } = new();
+
+    public string OwnerId { get; set; } = default!;
+    public User Owner { get; set; } = default!;
     #endregion
 
 

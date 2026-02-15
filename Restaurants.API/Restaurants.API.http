@@ -1,45 +1,55 @@
 @Restaurants.API_HostAddress = http://localhost:5001
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
-
-GET {{Restaurants.API_HostAddress}}/api/restaurants
+@bearerToken = CfDJ8Lxj95He-pdLmRiUX-TVBcEhSjDcYSV64tkPCL6X4wCcj7PQ-hLdd-Qrl543k7zXswiemIXHmQof5UkMqOSFMDLc-1KJPBoei7MZyB3LRT6Q2K2IQhd1Q-Y2nAIloYzq4lfPPEiFqdrHKu34spLuB2tJXlYvQztKuWLq3ogiqpLw6CgJFeHzwIQdt60vBdzIzoY9YUy5JZqIZYhtcWeW0qOx5Zv2ndFf0XWfGyY9QshMhkcZ4QnJZ5t7Ceqo0q61xUOEI6jPGMXIBTFTfhMonrx0xMiBXIzb7fglh-bOYo0Xol21gR369TtIrxtBh3b-4H-0EolZwk13JPJyJRzSy6UflxwKvvWeUX4Tmax0Q9P0ZcvbPOsIAtypte7N7GlhGTQnbEeFXaptV6I0bCQQs4TglRsktI8XT2Ia5HzVrLTlzEmQfn2o4GrxcMIwHzfr0ZOSFv-6ViKkrGfrqbs-httIBX4uVKvvqpQxV7A8-D5hUhy6ylE4PkGb2SXEPwo1bSl57MZyGi9j8gDhd1XPyS0WkXxBaj9oVLLSyl_0IdXP-YUaffkvdUknK3xkptcwf0BaD5_exNL_vLMibG-mYcAQU9AiGMrAEK4Ct5pQsSvzAIzTW4ySNRHE5hnw3Xh-85G23jHH5_OxQc0k3dnFTXaH8XFOoNs06l272uwOyl3oqYp82zEgbL-6m0Fvs_mY5PI8KU2dqNzcQ81HBxeVsmlLvZI1N93I5LMkawVuZ3P6U80_DvzAK0z9J0Xj7QSwd3nbCqHQf90lVZOsYnfqLvqhXtgzbLHS61Dt22CKWfDkL-6dIPUBGEHzMBoj_4zQ0_r8o_WWIvuYYTGkzU2m8aAaPyng1H0PWsHO8yoUOPmVOhiTK1GXuzsxP2C9FTDS_A
 
 ###
 
-GET {{Restaurants.API_HostAddress}}/api/restaurants/4
+GET {{Restaurants.API_HostAddress}}/api/restaurants?SortBy=CategoryId&SortDirection=Descending
+Authorization: Bearer {{bearerToken}}
+###
 
+GET {{Restaurants.API_HostAddress}}/api/restaurants/17
+Authorization: Bearer {{bearerToken}}
+
+###
 ###
 
 @id=4
-GET {{Restaurants.API_HostAddress}}/api/Restaurants/{{id}}
+GET {{Restaurants.API_HostAddress}}/api/Restaurants/{{id}}/dishes/13
+Authorization: Bearer {{bearerToken}}
+
 
 ###
 
 POST {{Restaurants.API_HostAddress}}/api/restaurants
 Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
 
 {
-  "name": "Sushi Master",
+  "name": "Test Owner2 2",
   "description": "Fresh and authentic Japanese sushi",
   "hasDelivery": false,
-  "categoryId":9,
-  "contactEmail": "infosushimaster.jp",
-  "contactNumber": "555-123-4567",
+  "categoryId":2,
+  "contactEmail": "test2@email.jp",
+  "contactNumber": "01228610700",
   "street": "456 Oak Avenue",
   "city": "Los Angeles",
-  "postalCode": "90-01"
+  "postalCode": "90-013"
 }
 ###
 
-DELETE {{Restaurants.API_HostAddress}}/api/restaurants/1
+DELETE {{Restaurants.API_HostAddress}}/api/restaurants/3
+Authorization:Bearer {{bearerToken}}
 
 ###
 
-PUT {{Restaurants.API_HostAddress}}/api/restaurants/4
+PUT {{Restaurants.API_HostAddress}}/api/restaurants/17
 Content-Type: application/json
+Authorization:Bearer {{bearerToken}}
 
 {
-  "id": 4,
-  "name": "Sushi Daily ==",
+  "id": 17,
+  "name": "updated 1",
   "description": "Authentic Japanese sushi and sashimi made fresh daily with premium ingredients.",
   "hasDelivery": true,
   "categoryId": 3,
@@ -53,5 +63,79 @@ Content-Type: application/json
   "createdAt": "2026-02-11T19:51:10.9372045",
   "updatedAt": null
 }
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/identity/login
+Content-Type: application/json
+{
+  "email": "user2@test.com",
+  "password": "Test@123"
+}
+###
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/identity/login
+Content-Type: application/json
+{
+  "email": "owner2@test.com",
+  "password": "Test@123"
+}
+###
+###
+
+POST {{Restaurants.API_HostAddress}}/api/identity/register
+Content-Type: application/json
+{
+  "email": "admin2@test.com",
+  "password": "Test@123"
+}
+###
+###
+
+POST {{Restaurants.API_HostAddress}}/api/identity/login
+Content-Type: application/json
+{
+  "email": "admin2@test.com",
+  "password": "Test@123"
+}
+###
+
+###
+
+PATCH {{Restaurants.API_HostAddress}}/api/identity/user
+Authorization: Bearer {{bearerToken}}
+Content-Type: application/json
+{
+  "dateOfBirth": "2001-02-14",
+  "nationality": "German"
+}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/identity/userRole
+Authorization: Bearer {{bearerToken}}
+Content-Type: application/json
+
+{
+  "userEmail": "admin2@test.com",
+  "roleName": "Admin"
+}
+
+###
+
+
+PUT {{Restaurants.API_HostAddress}}/api/restaurants/{id:int}
+Content-Type: application/json
+
+{
+  //UpdateRestaurantCommand
+}
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/identity/debug/claims
+Authorization: Bearer {{bearerToken}}
 
 ###

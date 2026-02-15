@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi;
 using Restaurants.API.Middlewares;
 using Restaurants.Domain.Entities;
 using Restaurants.Infrastructure.Authorization;
+using Restaurants.Infrastructure.Authorization.Requirements;
 using Restaurants.Infrastructure.Persistance;
-using Restaurants.Infrastructure.Seeds.Seeders.Helpers;
 using Serilog;
 
 namespace Restaurants.API.Extensions;
@@ -33,11 +34,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddScoped<RequestTimeLoggingMiddleware>();
 
 
-        builder.Services
-            .AddIdentityApiEndpoints<User>()
-            .AddRoles<IdentityRole>()
-            .AddClaimsPrincipalFactory<RestaurantsUserClaimsPrincipalFactory>()
-            .AddEntityFrameworkStores<RestaurantsDbContext>();
+
 
 
         builder.Host.UseSerilog((context, config) =>
@@ -45,17 +42,30 @@ public static class WebApplicationBuilderExtensions
             config.ReadFrom.Configuration(context.Configuration);
         });
 
-        builder.Services.AddOptions<SeedUsersOptions>()
-            .Bind(builder.Configuration.GetSection("SeedUsers"))
-            .Validate(options =>
+
+
+
+        builder.Services
+            .AddIdentityApiEndpoints<User>()
+            .AddRoles<IdentityRole>()
+            .AddClaimsPrincipalFactory<RestaurantsUserClaimsPrincipalFactory>()
+            .AddEntityFrameworkStores<RestaurantsDbContext>();
+
+        builder.Services.AddAuthorizationBuilder()
+            .AddPolicy(PolicyNames.HasNationality, policy =>
             {
-                bool IsValidUser(SeedUser user) =>
-                    !string.IsNullOrWhiteSpace(user.Email) &&
-                    !string.IsNullOrWhiteSpace(user.UserName) &&
-                    !string.IsNullOrWhiteSpace(user.Password);
-                return IsValidUser(options.Admin) &&
-                       IsValidUser(options.Owner) &&
-                       IsValidUser(options.User);
-            }, "Each seed user must have Email, UserName, and Password defined.");
+                policy.RequireClaim(AppClaimTypes.Nationality, "German", "Polish"); // check if the user has a claim "Nationality" with value "German" or "Polish"
+            })
+            .AddPolicy(PolicyNames.AtLeast20, policy =>
+            {
+                policy.AddRequirements(new MinimumAgeRequirement(20)); // check if the user is at least 20 years old
+            })
+            .AddPolicy(PolicyNames.AtLeastOwnerOf2Restaurants, policy =>
+            {
+                policy.AddRequirements(new MinimumRestaurantsRequirement(2)); // check if the user is at least have 2 restaurants
+            })
+            ;
+        builder.Services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
+        builder.Services.AddScoped<IAuthorizationHandler, MinimumRestaurantsRequirementHandler>();
     }
 }

@@ -12,4 +12,6 @@ public class User : IdentityUser, IAuditableEntity
 
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+
+    public List<Restaurant> OwnedRestaurants { get; set; } = new();
 }

@@ -9,16 +9,24 @@ public class RestaurantsUserClaimsPrincipalFactory(UserManager<User> userManager
 {
     public override async Task<ClaimsPrincipal> CreateAsync(User user)
     {
-        var identity = await GenerateClaimsAsync(user);
+        var principal = await base.CreateAsync(user);
+
+        var identity = (ClaimsIdentity)principal.Identity!;
+
         if (user.Nationality != null)
         {
-            identity.AddClaim(new Claim("Nationality", user.Nationality));
+            identity.AddClaim(new Claim(AppClaimTypes.Nationality, user.Nationality));
         }
         if (user.DateOfBirth != null)
         {
-            identity.AddClaim(new Claim("DateOfBirth", user.DateOfBirth.Value.ToString("yyyy-MM-dd")));
+            identity.AddClaim(new Claim(AppClaimTypes.DateOfBirth, user.DateOfBirth.Value.ToString("yyyy-MM-dd")));
         }
 
-        return new ClaimsPrincipal(identity);
+        var roles = await UserManager.GetRolesAsync(user);
+        foreach (var role in roles)
+            identity.AddClaim(new Claim(ClaimTypes.Role, role));
+
+
+        return principal;
     }
 }

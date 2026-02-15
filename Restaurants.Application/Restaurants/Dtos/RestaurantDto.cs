@@ -18,6 +18,8 @@ public class RestaurantDto
     public string? City { get; set; }
     public string? PostalCode { get; set; }
 
+    public string OwnerId { get; set; } = default!;
+
     public CategoryDto? Category { get; set; } = default!;
     public List<DishDto?>? Dishes { get; set; } = new();
 
