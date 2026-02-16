@@ -13,11 +13,11 @@ builder.Services.RegisterIoCServices(builder.Configuration);
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateAsyncScope())
-{
-    var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-    await dbInitializer.InitializeAsync();
-}
+//using (var scope = app.Services.CreateAsyncScope())
+//{
+//    var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+//    await dbInitializer.InitializeAsync();
+//}
 
 
 
