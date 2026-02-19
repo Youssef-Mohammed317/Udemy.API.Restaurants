@@ -12,6 +12,8 @@ using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Repositories;
+using Restaurants.Infrastructure.Persistance.Seeds.Abstractions;
+using Restaurants.Infrastructure.Persistance.Seeds.Seeders;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -28,6 +30,11 @@ public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Pr
     private readonly WebApplicationFactory<Program> factory;
     private readonly Mock<IUnitOfWork> fakeUnitOfWork = new();
     private Mock<IValidator<GetAllRestaurantsQuery>> validatorMock = new();
+    private Mock<RestaurantSeeder> resturantSeederMock = new();
+    private Mock<RoleSeeder> roleSeederMock = new();
+    private Mock<CategorySeeder> categorySeederMock = new();
+    private Mock<IDbInitializer> dbInitializerMock = new();
+
 
     public RestaurantsControllerTests(WebApplicationFactory<Program> factory)
     {
@@ -41,8 +48,12 @@ public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Pr
                     services.AddSingleton<IPolicyEvaluator, FakePolicyEvaluator>();
 
                     services.Replace(
-                    ServiceDescriptor.Scoped<IUnitOfWork>(_ => fakeUnitOfWork.Object)
-                );
+                    ServiceDescriptor.Scoped<IUnitOfWork>(_ => fakeUnitOfWork.Object));
+
+                    services.Replace(ServiceDescriptor.Scoped<IEntitySeeder>(_ => roleSeederMock.Object));
+                    services.Replace(ServiceDescriptor.Scoped<IEntitySeeder>(_ => categorySeederMock.Object));
+                    services.Replace(ServiceDescriptor.Scoped<IEntitySeeder>(_ => resturantSeederMock.Object));
+                    services.Replace(ServiceDescriptor.Scoped<IDbInitializer>(_ => dbInitializerMock.Object));
 
                 });
         });
