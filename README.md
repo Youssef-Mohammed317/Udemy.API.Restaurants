@@ -1,6 +1,6 @@
-Udemy 6 th Project https://www.udemy.com/course/aspnet-core-web-api-clean-architecture-azure/
-development link  https://restaurants-api-dev-app-cqdpgmcgejf6cwhh.polandcentral-01.azurewebsites.net/swagger
-production link https://restaurants-api-prod-app-ane0fthtaue2daet.polandcentral-01.azurewebsites.net/swagger
+### Udemy 6 th Project https://www.udemy.com/course/aspnet-core-web-api-clean-architecture-azure/
+### development link  https://restaurants-api-dev-app-cqdpgmcgejf6cwhh.polandcentral-01.azurewebsites.net/swagger
+### production link https://restaurants-api-prod-app-ane0fthtaue2daet.polandcentral-01.azurewebsites.net/swagger
 
 # Restaurants API (Clean Architecture + CQRS + EF Core + Azure)
 
