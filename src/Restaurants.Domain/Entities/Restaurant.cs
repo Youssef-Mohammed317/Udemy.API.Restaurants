@@ -11,6 +11,7 @@ public class Restaurant : BaseEntity<int>
 
     public string? ContactEmail { get; set; }
     public string? ContactNumber { get; set; }
+    public string? LogoUrl { get; set; }
     #region ObjectValues
     public Address? Address { get; set; }
     #endregion

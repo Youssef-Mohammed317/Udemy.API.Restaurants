@@ -1,6 +1,6 @@
 @Restaurants.API_HostAddress = http://localhost:5001
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
-@bearerToken = CfDJ8Lxj95He-pdLmRiUX-TVBcG7epU6LHIMToy3lIz4QRHFNf_Ea9DkMPq_f0g-FsasYOZ1EBhHS9H-Ns_YjwrCrgaYGRG6TMTp4RBc35iZqWQhTf_uwnLr4WUjwyf9OdbsVlO-NrJ0pXewF4xu8m8iKdJTElrXevxjER-MRLewbEA_tcyvAuRp1SCtcO1Xvw7b28D-F9IKqXmfycQ_UNmSWg8JmEy0BfEKiy_4k5ZQ2FmHSXtVDk_4t1QhHwEg-2JwwIqoOra5DcfH8evPx_iujWsf0_Uv35jHAA5p4U677qOa-aEZyd-LJkPfCrpjc3VARWlAOmmPAgV7x0PN8usHeiOjtb6EdZVGFvdE8rWdvH-ptmMgVeaqxavBiVZrDTjRR67jKBakmKiAfXmEf-_wvzxTyXuQ0uZQiqat_qHRpSzIbvtZaldkJdAxiBWyl9hgOnyisc-TmCGBQ9g8SU8sm75b8o6oONu5VeGB76I4v3SwxKmVzgLYqOiMyDHkSBqcbmFGjMaGwDB3yfyURnoSX5sbfWcdfyZFWiktoI_freq7ifXsjhWHMTkh3AjsQXorI1EqgRl45bxWDqLZdLzxOX41YwXr-EibUuXJUmRYvH5XlsZKtAT4qzkc7M41sjkd9dpYPFzODW8U-qhKRT_E2Aq4lZiO1qB-0EmMt7fA4gt29Y0PUr-ZV22zdW8blu150D7iQCtkQCoR3FrJYxIZEmthq1U2pmqeLxwHQJ-uRIOEBYWyqlPeEWNL8OhZtk1ZZnQCLyOpJmJ76arRp0MB-T2UfKT1iigaFSxdJwDYM47o
+@bearerToken = CfDJ8Lxj95He-pdLmRiUX-TVBcG9hgWvA4Etp_YDyLKIKbmnymyyqrbscadNIvgbsd2AhAgSYKTNbCnghba5zNJZOZ4vBIRCrJeccFFojrIpTzdQIfuqvM0frOgWf94ZkDo2KR9cl5Uzv8QRj267CgT2zdCknwYw2zJPhpWkBSL6c3M9HH8Xd9na2eSb6Hxir8G1CUIjlISes21Ar4el_P7QD-q3MxoH9r6OMGcD-GJkpF85lD7ADeqcMIqWEn7VsJw-jvO41DKgtiGOrToveMq8xBXiRq8-A9_mm3RiBpfYYCf3tsTdYAw4kHNLT9Xr108ZwdMtOjVCJUfLYoOA3ldMwvY04RUxb5f9ThR88hxkUVUbWz2TjrtxHZIPJHBBPv89KfTeARIODE36f6xgR24rO2jFoi-NO7duaNlPPyu0ShWRwb7WslKCSLCKbeK2ZjIRcbHwfHPqtYMSao_tv6EEP60PH1W_Rz-mZb-D3yTq8hhfKCqV0_O5BfvtmYYSQh84znNKD1wSRH5h-BNK1IrGHOrR9Mf91RjR7LxV99PbnwF5DJficHyyBnF4d8ZRIX42LuokTdnVorfwQDQb4sKx1AdNQaLHWgceuWylq4Q3FcIKWCUrn1p0kOpNppxgSBECyOMAUzzszC0bvrgvE89MCe2u5IhTxC6YenPQw-69KjkhfheJpAr7vX6W_ZktPGicDo3E0mPjtwLZh6babmkwevT7-Dl-sk9HiuHBwsiz5keLFDSO4H6rQGUtZdjvp35VXBk-9dMow6hFuU0UfQIh2HeTiAbdSRzy9rJAFjzCwPmE
 
 ###
 
@@ -79,7 +79,7 @@ Content-Type: application/json
 POST {{Restaurants.API_HostAddress}}/api/identity/login
 Content-Type: application/json
 {
-  "email": "owner2@test.com",
+  "email": "owner@test.com",
   "password": "Test@123"
 }
 ###
@@ -119,8 +119,8 @@ Authorization: Bearer {{bearerToken}}
 Content-Type: application/json
 
 {
-  "userEmail": "admin@test.com",
-  "roleName": "Admin"
+  "userEmail": "owner@test.com",
+  "roleName": "Owner"
 }
 
 ###

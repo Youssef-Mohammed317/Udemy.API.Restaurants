@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Restaurants.Commands.CreateRestaurant;
 using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
+using Restaurants.Application.Restaurants.Commands.UploadRestaurantLogo;
 using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
 using Restaurants.Domain.Constants;
-using Restaurants.Infrastructure.Authorization;
 
 namespace Restaurants.API.Contollers;
 
@@ -25,7 +25,7 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
         return Ok(restaurants);
     }
     [HttpGet("{id:int}")]
-    [Authorize(Policy = PolicyNames.HasNationality)]
+    //[Authorize(Policy = PolicyNames.HasNationality)]
     public async Task<ActionResult<RestaurantDto>> GetById([FromRoute] int id)
     {
         var restaurant = await _mediator.Send(new GetRestaurantByIdQuery(id));
@@ -60,4 +60,23 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
 
     }
 
+    [HttpPost("{id}/logo")]
+    public async Task<IActionResult> UploadLogo([FromRoute] int id, IFormFile logo)
+    {
+        if (logo == null || logo.Length == 0)
+        {
+            return BadRequest("No file uploaded.");
+        }
+
+        using var stream = logo.OpenReadStream();
+
+        var command = new UploadRestaurantLogoCommand
+        {
+            RestaurantId = id,
+            FileName = $"{id}-{logo.FileName}",
+            File = stream
+        };
+        await _mediator.Send(command);
+        return NoContent();
+    }
 }

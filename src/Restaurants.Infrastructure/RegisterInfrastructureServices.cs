@@ -9,6 +9,7 @@ using Restaurants.Infrastructure.Persistance.Repositories;
 using Restaurants.Infrastructure.Persistance.Seeds;
 using Restaurants.Infrastructure.Persistance.Seeds.Abstractions;
 using Restaurants.Infrastructure.Persistance.Seeds.Seeders;
+using Restaurants.Infrastructure.Storage;
 
 
 namespace Restaurants.Infrastructure;
@@ -28,12 +29,16 @@ public static class RegisterInfrastructureServices
         services.AddScoped<IEntitySeeder, RoleSeeder>();
         services.AddScoped<IEntitySeeder, CategorySeeder>();
         services.AddScoped<IEntitySeeder, RestaurantSeeder>();
+
         services.AddScoped<IDbInitializer, DbInitializer>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
         services.AddScoped<IRestaurantAuthorizationService, RestaurantAuthorizationService>();
+
+        services.Configure<BlobStorageSettings>(configurations.GetSection("BlobStorageSettings"));
+        services.AddScoped<IBlobStorageService, BlobStorageService>();
 
 
 

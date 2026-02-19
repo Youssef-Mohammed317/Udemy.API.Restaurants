@@ -16,6 +16,7 @@ internal class RestaurantConfiguration : IEntityTypeConfiguration<Restaurant>
         builder.Property(p => p.HasDelivery).IsRequired().HasDefaultValue(false);
         builder.Property(p => p.ContactEmail).IsRequired(false);
         builder.Property(p => p.ContactNumber).IsRequired(false);
+        builder.Property(p => p.LogoUrl).IsRequired(false);
 
         builder.OwnsOne(p => p.Address, a =>
         {
