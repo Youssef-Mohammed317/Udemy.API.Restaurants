@@ -9,7 +9,6 @@
   <Folder Name="/tests/">
     <Project Path="tests/Restaurants.APITests/Restaurants.APITests.csproj" />
     <Project Path="tests/Restaurants.Application.UnitTests/Restaurants.Application.UnitTests.csproj" />
-    <Project Path="tests/Restaurants.Domain.UnitTests/Restaurants.Domain.UnitTests.csproj" />
     <Project Path="tests/Restaurants.InfrastructureTests/Restaurants.InfrastructureTests.csproj" />
   </Folder>
 </Solution>
